@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* @theme: Aquí definimos las variables de diseño.
+  En v4, esto reemplaza al archivo tailwind.config.ts para theme.extend.
+  Al declarar --font-* o --color-*, Tailwind crea automáticamente las clases.
+*/
+@theme {
+  /* Conectamos las variables de Next.js (--font-inter, --font-mono) a las clases font-sans y font-mono */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Tus colores personalizados "Industrial" */
+  /* Al ponerlos aquí, Tailwind genera automáticamente: bg-g-black, text-g-black, border-g-border, etc. */
+  --color-g-black: #0a0a0a;
+  --color-g-border: #e5e5e5;
+  
+  /* Color gris técnico para fondos (usado en tu body) */
+  --color-g-gray-bg: #f8f9fa;
+}
+
+/* @layer utilities: Para tus clases utilitarias personalizadas 
+*/
+@layer utilities {
+  /* Fondo de cuadrícula técnica */
+  .tech-grid {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+                      linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+  
+  /* Utilidad para ocultar scrollbar */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* @layer components: Para tus componentes complejos (Botones, Tarjetas, Inputs)
+  Usamos @apply para componer clases de Tailwind existentes.
+*/
+@layer components {
+  /* Botón Industrial */
+  .btn-industrial {
+    @apply bg-g-black text-white px-6 py-3 text-sm font-bold uppercase tracking-wider border border-g-black 
+           flex items-center justify-center gap-2 cursor-pointer transition-all duration-200;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+  }
+  
+  .btn-industrial:hover {
+    @apply bg-white text-g-black;
+  }
+  
+  .btn-industrial:active {
+    box-shadow: 0px 0px 0px rgba(0,0,0,0);
+    transform: translate(2px, 2px);
+  }
+
+  /* Inputs del Formulario */
+  .input-tech {
+    @apply w-full bg-white border border-gray-300 px-4 py-3 text-sm font-mono 
+           focus:border-g-black focus:outline-none transition-colors placeholder-gray-400;
+  }
+
+  /* Select personalizado */
+  .select-tech {
+    @apply w-full bg-white border border-gray-300 px-4 py-3 text-sm font-mono 
+           focus:border-g-black focus:outline-none appearance-none cursor-pointer;
+    
+    /* Recreamos el icono SVG en CSS puro para no depender de URLs externas si no quieres */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+  }
+
+  /* Tarjetas del Bento Grid */
+  .bento-card {
+    @apply bg-white border border-gray-200 p-8 flex flex-col justify-between 
+           hover:border-g-black transition-colors duration-300 relative overflow-hidden;
+  }
+
+  /* Decoración de esquinas */
+  .corner-marker::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 20px 20px 0;
+    border-color: transparent var(--color-g-black) transparent transparent;
+  }
+}
+
+/* Estilos base globales */
+@layer base {
+  body {
+    @apply font-sans bg-g-gray-bg text-g-black overflow-x-hidden antialiased;
+  }
+}
