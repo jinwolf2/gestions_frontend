@@ -38,7 +38,7 @@ export default function ContactForm() {
 
     try {
       // Conexión con tu Backend (Asegúrate de que esté corriendo en el puerto 3001)
-      const response = await fetch("http://mailto.gestions.es/contact", {
+      const response = await fetch("https://mailto.gestions.es/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
